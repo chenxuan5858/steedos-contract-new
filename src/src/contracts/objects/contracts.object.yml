@@ -1,0 +1,439 @@
+name: contracts
+label: 客户合同
+icon: contract
+enable_files: true
+enable_search: true
+enable_events: false
+enable_tasks: false
+enable_api: true
+enable_chatter: true
+enable_audit: true
+enable_workflow: true
+fields:
+  name:
+    label: 合同名称
+    type: formula
+    data_type: text
+    formula: "clientname.name&building_select.name&TEXT(rentalsquare)"
+    required: false
+    searchable: true
+    group: 合同基本信息
+    index: true
+  contractNO:
+    label: 合同号
+    type: text
+    group: 合同基本信息
+    required: true
+  clientname:
+    type: lookup
+    relatedList: true
+    label: 客户
+    reference_to: accounts
+    group: 合同基本信息
+    required: true
+    filterable: true
+  contractor:
+    type: select
+    label: 合同签订主体
+    options:
+      - label: 北京牡丹电子集团有限责任公司
+        value: company1
+      - label: 北京牡丹科技孵化器有限公司
+        value: company2
+      - label: 北京牡丹创新科技孵化器有限公司
+        value: company3
+    group: 合同基本信息
+    required: true
+    filterable: true
+  building_select:
+    type: lookup
+    label: 租赁楼宇
+    reference_to: buildings
+    group: 合同基本信息
+    required: true
+    filterable: true
+  room_number:
+    label: 房间
+    type: lookup
+    group: 合同基本信息
+    reference_to: room
+    required: true
+    multiple: true
+    depend_on: ['building_select']
+    filtersFunction: !!js/function |
+      function (filters, depend_on) {
+        if(depend_on && depend_on.building_select){
+          return "((rentalstatus ne 'no') and (building eq '"+depend_on.building_select+"'))";
+        }else{
+          return "(rentalstatus ne 'no')";
+        }
+      }
+  rentalsquare:
+    label: 租赁面积
+    type: number
+    group: 合同基本信息
+    scale: 2
+    required: false
+    sortable: true
+    filterable: true
+    inlineHelpText: 自动计算房间面积无需手动填写
+    omit: true
+  owner:
+    label: 执行人
+    sortable: true
+    type: lookup
+    reference_to: users
+    group: 合同基本信息
+    omit: true
+    hidden: false
+  created_by:
+    label: 创建人
+    sortable: true
+    group: 合同基本信息
+    type: lookup
+    omit: true
+    reference_to: users
+  modified_by:
+    label: 修改人
+    sortable: true
+    omit: true
+    group: 合同基本信息
+    type: lookup
+    reference_to: users
+  subject:
+    type: textarea
+    label: 合同主要内容
+    group: 合同基本信息
+    is_wide: true
+  start_date:
+    label: 合同开始日期
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+    group: 租赁期限
+  end_date:
+    label: 合同结束日期
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+    group: 租赁期限
+  bop4:
+    type: select
+    label: 是否有免租期
+    options: 
+      - label: 是
+        value: yes
+      - label: 否
+        value: no    
+    defaultValue: no
+    filterable: true
+    group: 租赁期限
+  free_period_fees:
+    type: select
+    label: 是否有免租期物业费
+    options:
+      - label: 是
+        value: yes
+      - label: 否
+        value: no
+    required: false
+    defaultValue: no
+    filterable: true
+    group: 租赁期限
+  free_period_start:
+    label: 免租期起始日期
+    type: date
+    sortable: true
+    filterable: true
+    required: false
+    group: 租赁期限
+  free_period_end:
+    label: 免租期结束日期
+    type: date
+    sortable: true
+    filterable: true
+    required: false
+    group: 租赁期限
+  free_period_fees_amount:
+    label: 免租期物业费单价
+    type: number
+    scale: 3
+    required: false
+    sortable: true
+    group: 租赁期限
+  contract_type1:
+    label: 主合同类别
+    type: select
+    options: 
+      - label: 房屋租赁
+        value: rentalcontract
+    defaultValue: rentalcontract  
+    required: true
+    filterable: true
+    group: 合同费用信息
+  rentalamount:
+    label: 租金单价
+    type: number
+    scale: 3
+    required: true
+    sortable: true
+    group: 合同费用信息
+  contract_type2:
+    type: select
+    label: 服务合同类别
+    options: 
+      - label: 技术服务合同
+        value: servicecontract1
+      - label: 智慧园区服务合同
+        value: servicecontract2
+      - label: 智慧园区物业管理服务合同
+        value: servicecontract3
+      - label: 物业管理服务合同
+        value: servicecontract4
+    required: false
+    filterable: true
+    defaultValue: servicecontract1
+    group: 合同费用信息
+  serviceamount:
+    label: 服务费单价
+    type: number
+    scale: 3
+    required: false
+    sortable: true
+    filterable: true
+    group: 合同费用信息
+  depositcycle:
+    type: select
+    label: 押金期限
+    options:
+      - label: 无
+        value: '0'
+      - label: 一
+        value: '1'
+      - label: 二
+        value: '2'
+      - label: 三
+        value: '3'
+      - label: 六
+        value: '6'
+      - label: 十二
+        value: '12'
+    required: true
+    filterable: true
+    group: 合同费用信息
+  paymentcycle:
+    type: select
+    label: 付款周期
+    options:
+      - label: 一
+        value: '1'
+      - label: 二
+        value: '2'
+      - label: 三
+        value: '3'
+      - label: 六
+        value: '6'
+      - label: 十二
+        value: '12'
+    required: true
+    filterable: true
+    group: 合同费用信息
+  bop3:
+    type: select
+    label: 是否递增
+    options: 
+      - label: 是
+        value: yes
+      - label: 否
+        value: no    
+    defaultValue: no
+    filterable: true
+    group: 合同费用信息
+  remark:
+    label: 递增说明
+    type: textarea
+    is_wide: true
+    group: 合同费用信息
+  signed_date:
+    label: 合同签订日期
+    type: date
+    group: 合同其他信息
+    sortable: true
+    filterable: true
+    required: true
+  meetingstate:
+    label: 上会期号
+    type: text
+    required: true
+    hidden: false
+    filterable: true
+    group: 合同其他信息
+  contract_fulfillment_state:
+    type: select
+    label: 合同履行状态
+    defaultValue: running
+    options:
+      - label: 履行中
+        value: running
+      - label: 已终止
+        value: end
+    filterable: true
+    group: 合同其他信息
+  contract_end_time:
+     label: 合同终止日期
+     type: date
+     sortable: true
+     filterable: true
+     required: false
+     group: 合同其他信息
+  remark2:
+    label: 合同备注
+    type: textarea
+    is_wide: true
+    group: 合同其他信息
+  remark3:
+    label: 终止说明
+    type: textarea
+    is_wide: true
+    group: 合同其他信息
+
+
+list_views:
+  allrunning:
+    label: 履行中合同
+    columns:
+      - field: contractNO
+        width: 150
+      - field: clientname
+        width: 200
+      - field: name
+        width: 250
+      - field: building_select
+        width: 150
+      - field: room_number
+        width: 100
+      - field: rentalsquare
+        width: 120
+      - field: rentalamount
+        width: 100
+      - field: serviceamount
+        width: 100
+      - field: start_date
+        width: 120
+      - field: end_date
+        width: 120          
+      - field: contractor
+        width: 200
+      - field: contract_type2
+        width: 150
+      - field: depositcycle
+        width: 120
+      - field: paymentcycle
+        width: 120
+      - field: bop4
+        width: 120
+      - field: free_period_fees
+        width: 150
+    filters: [["contract_fulfillment_state","=","running"]]
+    filter_scope: space
+
+  allend:
+    label: 已终止合同
+    columns:
+      - field: contractNO
+        width: 150
+      - field: clientname
+        width: 200
+      - field: name
+        width: 250
+      - field: building_select
+        width: 150
+      - field: room_number
+        width: 100
+      - field: rentalsquare
+        width: 120
+      - field: rentalamount
+        width: 100
+      - field: serviceamount
+        width: 100
+      - field: start_date
+        width: 120
+      - field: end_date
+        width: 120          
+      - field: contractor
+        width: 200
+      - field: contract_type2
+        width: 150
+      - field: depositcycle
+        width: 120
+      - field: paymentcycle
+        width: 120
+      - field: bop4
+        width: 120
+      - field: free_period_fees
+        width: 150
+    filters: [["contract_fulfillment_state","=","end"]]
+    filter_scope: space
+
+  allcontracts:
+    label: 所有合同
+    columns:
+      - field: contractNO
+        width: 150
+      - field: clientname
+        width: 200
+      - field: name
+        width: 250
+      - field: building_select
+        width: 150
+      - field: room_number
+        width: 100
+      - field: rentalsquare
+        width: 120
+      - field: rentalamount
+        width: 100
+      - field: serviceamount
+        width: 100
+      - field: start_date
+        width: 120
+      - field: end_date
+        width: 120          
+      - field: contractor
+        width: 200
+      - field: contract_type2
+        width: 150
+      - field: depositcycle
+        width: 120
+      - field: paymentcycle
+        width: 120
+      - field: bop4
+        width: 120
+      - field: free_period_fees
+        width: 150
+    filter_scope: space
+
+
+permission_set:
+  user:
+    allowCreate: true
+    allowDelete: true
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true 
+  contract_manager:
+    allowCreate: true
+    allowEdit: true
+    allowDelete: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true
+  admin:
+    allowCreate: true
+    allowDelete: true
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true
