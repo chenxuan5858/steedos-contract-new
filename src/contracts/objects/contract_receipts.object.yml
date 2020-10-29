@@ -1,0 +1,252 @@
+name: contract_receipts
+label: 合同收款
+icon: product_consumed
+enable_search: true
+enable_api: true
+enable_audit: true
+fields:
+  name:
+    label: 收款编号
+    type: autonumber
+    formula: "{YYYY}-{0000}"
+    required: false
+    index: true
+    omit: true
+    searchable: true
+    name: name
+  fees_type:
+    label: 收款类型
+    type: select
+    options: 
+      - label: 房租费
+        value: rentalfee
+      - label: 房租保证金
+        value: rentaldeposit
+      - label: 技术服务费
+        value: servicefee1
+      - label: 智慧园区服务费
+        value: servicefee2
+      - label: 智慧园区物业管理服务费
+        value: servicefee3
+      - label: 物业管理服务费
+        value: servicefee4
+      - label: 履约保证金
+        value: servicedeposit
+      - label: 免租期物业费
+        value: freeperiodfee
+    required: true
+    filterable: true
+    name: fees_type
+  contract:
+    label: 合同名称
+    type: master_detail
+    reference_to: contracts
+    required: true
+    searchable: true
+    index: true
+    name: contract
+    filterable: true
+  contract_start_date:
+    label: 合同开始日期
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+  contract_end_date:
+    label: 合同结束日期
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+  fee_period_start:
+    label: 收款期限起
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+  fee_period_end:
+    label: 收款期限止
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+  amount:
+    label: 应收金额
+    type: currency
+    required: true
+    sortable: true
+    name: amount
+    filterable: true
+  paid_amount:
+    label: 实收金额
+    type: currency
+    required: false
+    sortable: true
+    name: paid_amount
+    filterable: true
+  unpaid_amount:
+    label: 欠缴金额
+    type: formula
+    data_type: currency
+    formula: "amount-paid_amount"
+    required: false
+    sortable: true
+    name: unpaid_amount
+    filterable: true
+  account:
+    type: lookup
+    label: 付款客户
+    reference_to: accounts
+    relatedList: true
+    filterable: true
+    required: true
+  building:
+    type: lookup
+    label: 所属楼宇
+    reference_to: buildings
+    required: true
+    filterable: true
+  receipts_contractor:
+    label: 收款主体
+    type: select
+    options: 
+      - label: 北京牡丹电子集团有限责任公司
+        value: company1
+      - label: 北京牡丹科技孵化器有限公司
+        value: company2
+      - label: 北京牡丹创新科技孵化器有限公司
+        value: company3
+    required: true
+    filterable: true
+    name: receipts_contractor
+  paid_date:
+    label: 到账时间
+    type: date
+    sortable: true
+    name: paid_date
+    filterable: true
+  fees_finished:
+    label: 费用全部到账
+    type: boolean
+    filterable: true
+  paid_real_date:
+    label: 全部到账时间
+    type: date
+    sortable: true
+    name: paid_real_date
+    filterable: true
+  fees_description:
+    label: 收款说明
+    type: textarea
+    is_wide: true
+    rows: 2
+
+list_views:
+  pending:
+    label: 待收款
+    filters: [["fees_finished", "=", false]]
+    columns:
+      - field: account
+        width: 250
+      - field: contract
+        width: 300
+      - field: fees_type
+        width: 200
+      - field: receipts_contractor
+        width: 250
+      - field: fee_period_start
+        width: 150
+      - field: fee_period_end
+        width: 150
+      - field: amount
+        width: 150
+      - field: paid_amount
+        width: 150
+      - field: unpaid_amount
+        width: 150
+      - field: paid_date
+        width: 150
+      - field: fees_finished
+        width: 150
+      - field: paid_real_date
+        width: 150
+    filter_scope: space
+
+  receipted:
+    label: 已收款
+    filters: [["fees_finished", "=", true]]
+    columns:
+      - field: account
+        width: 250
+      - field: contract
+        width: 300
+      - field: fees_type
+        width: 200
+      - field: receipts_contractor
+        width: 250
+      - field: fee_period_start
+        width: 150
+      - field: fee_period_end
+        width: 150
+      - field: amount
+        width: 150
+      - field: paid_amount
+        width: 150
+      - field: unpaid_amount
+        width: 150
+      - field: paid_date
+        width: 150
+      - field: fees_finished
+        width: 150
+      - field: paid_real_date
+        width: 150
+    filter_scope: space
+
+  all:
+    label: 所有收款
+    columns:
+      - field: account
+        width: 250
+      - field: contract
+        width: 300
+      - field: fees_type
+        width: 200
+      - field: receipts_contractor
+        width: 250
+      - field: fee_period_start
+        width: 150
+      - field: fee_period_end
+        width: 150
+      - field: amount
+        width: 150
+      - field: paid_amount
+        width: 150
+      - field: unpaid_amount
+        width: 150
+      - field: paid_date
+        width: 150
+      - field: fees_finished
+        width: 150
+      - field: paid_real_date
+        width: 150
+    filter_scope: space
+
+permission_set:
+  user:
+    allowCreate: true
+    allowDelete: false
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true
+    disabled_actions:
+      - standard_delete
+  admin:
+    allowCreate: true
+    allowDelete: true
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true
+
+

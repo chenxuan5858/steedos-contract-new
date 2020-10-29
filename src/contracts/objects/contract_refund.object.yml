@@ -1,0 +1,189 @@
+name: contract_refund
+label: 保证金退款
+icon: logging
+enable_search: true
+enable_api: true
+enable_audit: true
+fields:
+  name:
+    label: 退款编号
+    type: autonumber
+    formula: "{YYYY}-{0000}"
+    required: false
+    searchable: false
+    index: true
+    omit: true 
+    name: name
+  refund_type:
+    label: 退款类型
+    type: select
+    options: 
+      - label: 保证金退款
+        value: rentaldeposit
+      - label: 履约保证金退款
+        value: servicedeposit
+    required: true
+    filterable: true
+    is_wide: false
+    name: refund_type
+  contract:
+    label: 合同名称
+    type: master_detail
+    reference_to: contracts
+    required: true
+    searchable: true
+    index: true
+    name: contract
+    filterable: true
+  refund_contractor:
+    label: 退款主体
+    type: select
+    options: 
+      - label: 北京牡丹电子集团有限责任公司
+        value: company1
+      - label: 北京牡丹科技孵化器有限公司
+        value: company2
+      - label: 北京牡丹创新科技孵化器有限公司
+        value: company3
+    required: true
+    filterable: true
+    name: refund_contractor
+  account:
+    type: lookup
+    label: 退款客户
+    reference_to: accounts
+    relatedList: true
+    filterable: true  
+  contract_start_date:
+    label: 合同开始日期
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+  contract_end_date:
+    label: 合同结束日期
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+  refund_amount:
+    label: 退款金额
+    type: currency
+    required: true
+    sortable: true
+    filterable: true
+    name: refund_amount
+  refund_date:
+    label: 计划退款时间
+    type: date
+    sortable: true
+    name: refund_date
+    required: true
+    filterable: true
+  finished:
+    label: 已退款
+    type: boolean
+    filterable: true
+  real_date:
+    label: 实际退款时间
+    type: date
+    sortable: true
+    filterable: true
+    name: real_date
+  building:
+    type: lookup
+    label: 所属楼宇
+    reference_to: buildings
+    required: true
+    filterable: true
+  refund_description:
+    label: 退款说明
+    type: textarea
+    filterable: true
+    is_wide: true
+    rows: 2
+
+
+list_views:
+  unpayed:
+    label: 待退款
+    filter_scope: space
+    filters: [["finished","=",false]]
+    columns:
+      - field: account
+        width: 250
+      - field: contract
+        width: 300
+      - field: refund_contractor
+        width: 250
+      - field: refund_type
+        width: 250
+      - field: refund_amount
+        width: 150
+      - field: refund_date
+        width: 150
+      - field: finished
+        width: 150
+      - field: real_date
+        width: 150
+
+  payed:
+    label: 已退款
+    filter_scope: space
+    filters: [["finished","=",true]]
+    columns:
+      - field: account
+        width: 250
+      - field: contract
+        width: 300
+      - field: refund_contractor
+        width: 250
+      - field: refund_type
+        width: 250
+      - field: refund_amount
+        width: 150
+      - field: refund_date
+        width: 150
+      - field: finished
+        width: 150
+      - field: real_date
+        width: 150
+
+  all:
+    label: 所有退款
+    filter_scope: space
+    columns:
+      - field: account
+        width: 250
+      - field: contract
+        width: 300
+      - field: refund_contractor
+        width: 250
+      - field: refund_type
+        width: 250
+      - field: refund_amount
+        width: 150
+      - field: refund_date
+        width: 150
+      - field: finished
+        width: 150
+      - field: real_date
+        width: 150
+
+permission_set:
+  user:
+    allowCreate: true
+    allowDelete: false
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true 
+    disabled_actions:
+      - standard_delete
+  admin:
+    allowCreate: true
+    allowDelete: true
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true

@@ -1,0 +1,333 @@
+name: accounts
+label: 客户
+icon: account
+enable_search: true
+enable_api: true
+enable_audit: true
+fields:
+  name:
+    label: 企业名称
+    type: text
+    defaultValue: ""
+    description: ""
+    inlineHelpText: ""
+    searchable: true
+    required: true
+    sortable: true
+    name: name
+  tax_number:
+    label: 统一信用代码
+    type: text
+    searchable: true
+    required: true
+  in_time:
+    label: 入驻时间
+    type: date
+    searchable: true
+    sortable: true
+    filterable: true
+    required: false
+  out_time:
+    label: 撤出时间
+    type: date
+    searchable: true
+    sortable: true
+    filterable: true
+    required: false
+  in_or_out:
+    label: 是否入驻
+    type: select
+    options:
+      - label: 是
+        value: yes
+      - label: 否
+        value: no
+    defaultValue: yes
+    required: true
+    searchable: true
+    filterable: true
+  invoice_type:
+    label: 开票类型
+    group: 开票信息
+    type: select
+    options:
+      - label: 增值税普通发票
+        value: invoicetype1
+      - label: 增值税专用发票
+        value: invoicetype2
+    name: invoice_type
+    required: true
+    searchable: true
+  invoice_phone:
+    label: 开票电话
+    group: 开票信息
+    type: text
+    name: invoice_phone
+  invoice_bank:
+    label: 开户行
+    group: 开票信息
+    type: text
+    name: invoice_bank
+  invoice_combinenum:
+    label: 账号
+    group: 开票信息
+    type: text
+    name: invoice_combinenum
+  regis_time:
+    label: 企业注册时间
+    group: 企业信息
+    type: date
+    sortable: true
+    filterable: true
+    searchable: true
+    required: false
+  regis_amount:
+    label: 注册资本（万元）
+    group: 企业信息
+    type: currency
+    required: false
+    sortable: true
+    searchable: true
+  regis_location:
+    label: 注册地址
+    group: 企业信息
+    type: text
+    required: false
+    sortable: true
+    searchable: true
+  Legal_person:
+    label: 法人
+    group: 企业信息
+    type: text
+    required: false
+    sortable: true
+    searchable: true
+  Legal_person_contact:
+    label: 法人联系方式
+    group: 企业信息
+    type: text
+    required: false
+    sortable: true
+    searchable: true
+  company_type:
+    label: 公司类型
+    group: 企业信息
+    type: select
+    options:
+      - label: 有限责任公司(自然人独资)
+        value: 有限责任公司(自然人独资)
+      - label: 有限责任公司(自然人投资或控股)
+        value: 有限责任公司(自然人投资或控股)
+      - label: 股份有限公司(中外合资、未上市)
+        value: 股份有限公司(中外合资、未上市)
+      - label: 有限责任公司(法人独资)
+        value: 有限责任公司(法人独资)
+      - label: 其他有限责任公司
+        value: 其他有限责任公司
+      - label: 有限责任公司分公司(自然人投资或控股)
+        value: 有限责任公司分公司(自然人投资或控股)
+      - label: 股份有限公司(非上市、自然人投资或控股)
+        value: 股份有限公司(非上市、自然人投资或控股)
+      - label: 社会团体
+        value: 社会团体
+  industrial:
+    label: 产业领域
+    group: 企业信息
+    type: select
+    options:
+      - label: 软件和信息技术服务业
+        value: 软件和信息技术服务业
+      - label: 科技推广和应用服务业
+        value: 科技推广和应用服务业
+      - label: 文化艺术业
+        value: 文化艺术业
+      - label: 金融业
+        value: 金融业
+      - label: 批发和零售业
+        value: 批发和零售业
+      - label: 商务服务业
+        value: 商务服务业
+  financing:
+    label: 是否融资
+    group: 企业信息
+    type: select
+    options:
+      - label: 是
+        value: yes
+      - label: 否
+        value: no
+    required: false
+    sortable: true
+    searchable: true
+  financing_amount:
+    label: 融资金额
+    group: 企业信息
+    type: currency
+    required: false
+    sortable: true
+    searchable: true
+  financing_time:
+    label: 融资时间
+    group: 企业信息
+    type: date
+    required: false
+    sortable: true
+    searchable: true
+  listed:
+    label: 是否上市
+    group: 企业信息
+    type: select
+    options:
+      - label: 是
+        value: yes
+      - label: 否
+        value: no
+    required: false
+    sortable: true
+    searchable: true
+  listed_time:
+    label: 上市时间
+    group: 企业信息
+    type: date
+    required: false
+    sortable: true
+    searchable: true
+  intellectual_property:
+    label: 知识产权数量
+    group: 企业信息
+    type: text
+    required: false
+    sortable: true
+    searchable: true
+  software:
+    label: 软件著作权申请数
+    group: 企业信息
+    type: text
+    required: false
+    sortable: true
+    searchable: true
+  patent:
+    label: 发明专利数量
+    group: 企业信息
+    type: text
+    required: false
+    sortable: true
+    searchable: true
+  trademark:
+    label: 商标数量
+    group: 企业信息
+    type: text
+    required: false
+    sortable: true
+    searchable: true
+  company_good:
+    label: 企业资质
+    group: 企业信息
+    type: select
+    options:
+      - label: 国高新
+        value: 国高新
+      - label: 村高新
+        value: 村高新 
+      - label: 金种子
+        value: 金种子
+      - label: 瞪羚
+        value: 瞪羚
+    required: false
+    sortable: true
+    searchable: true
+  website:
+    label: 网址
+    group: 企业信息
+    type: text
+    required: false
+    searchable: true
+  worker_number:
+    label: 人数
+    group: 企业信息
+    type: text
+    required: false
+    sortable: true
+    searchable: true
+  describe:
+    label: 简介
+    group: 企业信息
+    type: text
+    is_wide: true
+    required: false
+  
+list_views:
+  in:
+    label: 入驻客户
+    columns:
+      - field: name
+        width: 300
+      - field: tax_number
+        width: 200     
+      - field: in_time
+        width: 120
+      - field: out_time
+        width: 120
+      - field: in_or_out
+        width: 120
+      - field: invoice_type
+        width: 200
+    filter_scope: space
+    filters: [["in_or_out","=","yes"]]
+
+  out:
+    label: 撤出客户
+    columns:
+      - field: name
+        width: 300
+      - field: tax_number
+        width: 200     
+      - field: in_time
+        width: 120
+      - field: out_time
+        width: 120
+      - field: in_or_out
+        width: 120
+      - field: invoice_type
+        width: 200
+    filter_scope: space
+    filters: [["in_or_out","=","no"]]
+
+  all:
+    label: 所有客户
+    columns:
+      - field: name
+        width: 300
+      - field: tax_number
+        width: 200     
+      - field: in_time
+        width: 120
+      - field: out_time
+        width: 120
+      - field: in_or_out
+        width: 120
+      - field: invoice_type
+        width: 200
+    filter_scope: space
+
+
+
+permission_set:
+  user:
+    allowCreate: true
+    allowDelete: false
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true
+    disabled_actions:
+      - standard_delete
+  admin:
+    allowCreate: true
+    allowDelete: true
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true
+
+

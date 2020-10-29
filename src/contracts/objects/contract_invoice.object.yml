@@ -1,0 +1,241 @@
+name: contract_invoice
+label: 收款发票
+icon: product_consumed
+enable_search: true
+enable_api: true
+enable_audit: true
+fields:
+  name:
+    label: 发票编号
+    type: autonumber
+    formula: "{YYYY}-{0000}"
+    required: false
+    index: true
+    omit: true
+    searchable: false
+    name: name
+  invoice_name:
+    label: 发票名称
+    type: select
+    options: 
+      - label: 房租发票
+        value: invoicename1
+      - label: 技术服务发票
+        value: invoicename2
+      - label: 智慧园区服务发票
+        value: invoicename3
+      - label: 智慧园区物业管理服务发票
+        value: invoicename4
+      - label: 物业管理服务发票
+        value: invoicename5
+      - label: 免租期物业费发票
+        value: invoicename6
+    required: true
+    filterable: true
+    name: invoice_name
+  contract:
+    label: 合同名称
+    type: master_detail
+    reference_to: contracts
+    required: true
+    index: true
+    name: contract
+    filterable: true
+    searchable: true
+  invoice_contractor:
+    label: 开票主体
+    type: select
+    options: 
+      - label: 北京牡丹电子集团有限责任公司
+        value: company1
+      - label: 北京牡丹科技孵化器有限公司
+        value: company2
+      - label: 北京牡丹创新科技孵化器有限公司
+        value: company3
+    required: true
+    filterable: true
+    name: invoice_contractor
+  account:
+    type: lookup
+    label: 开票客户
+    reference_to: accounts
+    relatedList: true
+    searchable: true
+    filterable: true
+    required: true
+  contract_start_date:
+    label: 合同开始日期
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+  contract_end_date:
+    label: 合同结束日期
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+  invoice_period_start:
+    label: 发票账期起
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+  invoice_period_end:
+    label: 发票账期止
+    type: date
+    sortable: true
+    filterable: true
+    required: true
+  invoice_amount:
+    label: 开票金额
+    type: currency
+    required: true
+    sortable: true
+    name: invoice_amount
+  paid_time:
+    label: 收款日期
+    type: date
+    sortable: true
+    filterable: true
+    required: false
+  invoice_type:
+    label: 发票种类
+    type: select
+    options: 
+      - label: 增值税普通发票
+        value: invoicetype1
+      - label: 增值税专用发票
+        value: invoicetype2
+    filterable: true
+    required: true
+  invoice_finished:
+    label: 已开票
+    type: boolean
+    filterable: true
+  invoice_date:
+    label: 开票日期
+    type: date
+    sortable: true
+    filterable: true
+    required: false
+  building:
+    type: lookup
+    label: 所属楼宇
+    reference_to: buildings
+    required: true
+    filterable: true
+  tax_number:
+    label: 统一信用代码
+    type: text
+    omit: true
+
+
+list_views:
+  pending:
+    label: 待开票
+    columns:
+      - field: account
+        width: 250
+      - field: tax_number
+        width: 250
+      - field: contract
+        width: 300
+      - field: invoice_contractor
+        width: 250
+      - field: invoice_name
+        width: 200
+      - field: invoice_type
+        width: 200
+      - field: invoice_period_start
+        width: 150
+      - field: invoice_period_end
+        width: 150
+      - field: invoice_amount
+        width: 150
+      - field: paid_time
+        width: 150
+      - field: invoice_finished
+        width: 150
+      - field: invoice_date
+        width: 150
+    filters: [["invoice_finished", "=", false]]
+    filter_scope: space
+
+  receipted:
+    label: 已开票
+    columns:
+      - field: account
+        width: 250
+      - field: tax_number
+        width: 250
+      - field: contract
+        width: 300
+      - field: invoice_contractor
+        width: 250
+      - field: invoice_name
+        width: 200
+      - field: invoice_type
+        width: 200
+      - field: invoice_period_start
+        width: 150
+      - field: invoice_period_end
+        width: 150
+      - field: invoice_amount
+        width: 150
+      - field: paid_time
+        width: 150
+      - field: invoice_finished
+        width: 150
+      - field: invoice_date
+        width: 150
+    filters: [["invoice_finished", "=", true]]
+    filter_scope: space
+
+  all:
+    label: 所有发票
+    columns:
+      - field: account
+        width: 250
+      - field: tax_number
+        width: 250
+      - field: contract
+        width: 300
+      - field: invoice_contractor
+        width: 250
+      - field: invoice_name
+        width: 200
+      - field: invoice_type
+        width: 200
+      - field: invoice_period_start
+        width: 150
+      - field: invoice_period_end
+        width: 150
+      - field: invoice_amount
+        width: 150
+      - field: paid_time
+        width: 150
+      - field: invoice_finished
+        width: 150
+      - field: invoice_date
+        width: 150
+    filter_scope: space
+
+permission_set:
+  user:
+    allowCreate: true
+    allowDelete: false
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true 
+    disabled_actions:
+      - standard_delete
+  admin:
+    allowCreate: true
+    allowDelete: true
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true
+

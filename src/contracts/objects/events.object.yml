@@ -1,0 +1,140 @@
+name: events
+label: Event
+icon: event
+enable_search: true
+enable_api: true
+enable_audit: true
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+    is_wide: true
+    searchable: true
+    index: true
+    name: name
+  start:
+    label: Start Timne
+    type: datetime
+    required: true
+    defaultValue: !<tag:yaml.org,2002:js/function> |-
+      function () {
+              var now, reValue;
+              now = new Date();
+              reValue = new Date(now.getTime() + 1 * 60 * 60 * 1000);
+              reValue.setMinutes(0);
+              reValue.setSeconds(0);
+              return reValue;
+            }
+    sortable: true
+    name: start
+  end:
+    label: End Time
+    type: datetime
+    required: true
+    defaultValue: !<tag:yaml.org,2002:js/function> |-
+      function () {
+              var now, reValue;
+              now = new Date();
+              reValue = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+              reValue.setMinutes(0);
+              reValue.setSeconds(0);
+              return reValue;
+            }
+    name: end
+  related_to_contract:
+    label: 相关合同
+    type: master_detail
+    index: true
+    reference_to: contracts
+    searchable: true
+    name: related_to_contract
+  related_to:
+    label: Related to
+    type: lookup
+    index: true
+    reference_to: accounts
+    name: related_to
+    filterable: true
+  is_all_day:
+    label: All Day Event
+    type: boolean
+    name: is_all_day
+  is_finished:
+    label: 已完成
+    type: boolean
+    name: is_finished
+  description:
+    label: Description
+    type: textarea
+    is_wide: true
+    name: description
+list_views:
+  calendar_view:
+    type: calendar
+    label: Calendar View
+    filter_scope: space
+    filters: [["is_finished","=",false]]
+    options:
+      startDateExpr: start
+      endDateExpr: end
+      textExpr: name
+      title:
+        - name
+        - start
+        - end
+        - related_to_contract
+        - related_to
+      currentView: month
+      startDayHour: 8
+      endDayHour: 18
+  all:
+    label: All Events
+    filter_scope: space
+    columns:
+      - name
+      - start
+      - end
+      - related_to_contract
+      - is_finished
+      - description
+  finished:
+    label: 已完成
+    filter_scope: space
+    columns:
+      - name
+      - start
+      - end
+      - related_to_contract
+      - is_finished
+      - description
+    filters: [["is_finished","=",true]]
+  notfinished:
+    label: 未完成
+    filter_scope: space
+    columns:
+      - name
+      - start
+      - end
+      - related_to_contract
+      - is_finished
+      - description
+    filters: [["is_finished","=",false]]
+permission_set:
+  user:
+    allowCreate: true
+    allowDelete: false
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true
+    disabled_actions:
+      - standard_delete
+  admin:
+    allowCreate: true
+    allowDelete: true
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true
+

@@ -1,0 +1,63 @@
+name: room
+icon: record
+label: 房间
+enable_search: true
+enable_api: true
+enable_audit: true
+fields:
+  building:
+    type: master_detail
+    label: 所属楼宇
+    name: building
+    reference_to: buildings
+    required: true
+    filterable: true
+  name:
+    type: text
+    label: 房间号
+    name: name
+    searchable: true
+    required: true
+  area:
+    type: number
+    scale: 3
+    label: 面积
+    name: area
+    required: true
+  rentalstatus:
+    type: select
+    label: 是否空置
+    defaultValue: yes
+    options:
+      - label: 是
+        value: yes
+      - label: 否
+        value: no
+permission_set:
+  user:
+    allowCreate: false
+    allowDelete: false
+    allowEdit: false
+    allowRead: true
+    modifyAllRecords: false
+    viewAllRecords: true 
+  admin:
+    allowCreate: true
+    allowDelete: true
+    allowEdit: true
+    allowRead: true
+    modifyAllRecords: true
+    viewAllRecords: true
+list_views:
+  all:
+    label: 全部
+    filter_scope: space
+    columns:
+      - field: building
+        width: 200
+      - field: name
+        width: 200
+      - field: area
+        width: 200
+      - field: rentalstatus
+        width: 150
